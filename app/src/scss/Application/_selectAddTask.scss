@@ -1,4 +1,4 @@
-$select-width: 80px;
+$select-width: 110px;
 $select-height: 30px;
 $select-border: 1px solid $color-dark;
 $border-rad: 2px;
@@ -13,7 +13,7 @@ $max-option-list-height: 200px;
 $arrow-size: 11px;
 
 .selectAddTask {
-  margin: 0 5px;
+  // margin: 0 5px;
 
   //predefined styles
   width: $select-width;

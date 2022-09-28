@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import LabelWrapper from "./LabelWrapper";
 import Select from "./Select";
 
 function AddTaskRow({ addTask }) {
@@ -10,7 +11,9 @@ function AddTaskRow({ addTask }) {
 
   const [newTask, setNewTask] = useState({
     id: "",
+    title: "",
     description: "",
+    due_date: "",
     priority: "select...",
     done: false,
   });
@@ -87,26 +90,53 @@ function AddTaskRow({ addTask }) {
   return (
     <div className={"addTaskRow"}>
       <form className={"addTaskRow__form"} onSubmit={handleSubmit}>
-        <input
-          value={newTask.description}
-          name={"description"}
-          onChange={setTask}
-          type={"text"}
-          placeholder={"Enter task description"}
-          className={"addTaskRow__input addTaskRow__input-text"}
-        />
         <div className={"wrapper"}>
-          <p className={"addTaskRow__text"}>Priority:</p>
-          <Select
-            options={["Low", "Medium", "High"]}
-            selectValue={newTask.priority}
-            changeHandler={setTaskPriority}
-            className={'selectAddTask'}
-          />
-          <button type={"submit"} className={"addTaskRow__btn"}>
-            Add task
-          </button>
+          <label className={"addTaskRow__label"}>
+            <p className={"addTaskRow__text"}>Taks title:</p>
+            <input
+              value={newTask.title}
+              name={"title"}
+              onChange={setTask}
+              type={"text"}
+              placeholder={"Enter task title"}
+              className={"addTaskRow__input addTaskRow__input-text"}
+            />
+          </label>
+          <label className={"addTaskRow__label"}>
+            <p className={"addTaskRow__text"}>Taks description:</p>
+            <input
+              value={newTask.description}
+              name={"description"}
+              onChange={setTask}
+              type={"text"}
+              placeholder={"Enter task description"}
+              className={"addTaskRow__input addTaskRow__input-text"}
+            />
+          </label>
         </div>
+        <div className={"wrapper"}>
+          <LabelWrapper title={"Priority"}>
+            <Select
+              title={"Priority"}
+              options={["Low", "Medium", "High"]}
+              selectValue={newTask.priority}
+              changeHandler={setTaskPriority}
+              className={"selectAddTask"}
+            />
+          </LabelWrapper>
+          <LabelWrapper title={"Due date"}>
+            <input
+              value={newTask.due_date}
+              name={"due_date"}
+              onChange={setTask}
+              type={"date"}
+              className={"addTaskRow__input addTaskRow__input-date"}
+            />
+          </LabelWrapper>
+        </div>
+        <button type={"submit"} className={"addTaskRow__btn"}>
+          Add task
+        </button>
       </form>
       <p
         className={
