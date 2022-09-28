@@ -19,6 +19,7 @@ class ToDo {
     return db.execute(sql, values);
   }
 
+  //static methods that can be easily access without need for creating new instance of ToDo
   static findAll() {
     const sql = "SELECT * FROM todos";
     return db.execute(sql);
