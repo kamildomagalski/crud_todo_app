@@ -1,0 +1,33 @@
+//Colors
+$color-light: whitesmoke;
+$color-grey: dimgrey;
+$color-dark: #222222;
+$color-warning: orange;
+$bg-color-light: whitesmoke;
+$bg-color-orange: orange;
+$bg-color-dark: #373a40;
+$border-color-light: #dedede;
+$border-color-dark: #222222;
+
+//Fonts
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
+$font-base: "Open Sans", sans-serif;
+
+//Mixins
+@mixin desktop() {
+  @media screen and (min-width: 900px) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media screen and (min-width: 500px) {
+    @content;
+  }
+}
+
+@mixin mobile() {
+  @media only screen and (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}

@@ -1,0 +1,57 @@
+.headerRow {
+  display: flex;
+  align-items: center;
+  background-color: $bg-color-dark;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  justify-content: space-between;
+  padding: 0 15px;
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__title {
+    color: $color-light;
+    line-height: 1.3rem;
+    padding: 15px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &-taskName {
+      width: 50%;
+      flex-grow: 1;
+    }
+
+    &-priority {
+      width: 80px;
+      @include tablet {
+        width: 90px;
+      }
+      @include desktop {
+        width: 150px;
+      }
+    }
+
+    &-done {
+      width: 60px;
+      @include tablet {
+        width: 80px;
+      }
+      @include desktop {
+        width: 130px;
+      }
+    }
+  }
+
+  &__icon {
+    font-size: 1.2rem;
+    line-height: 1.3rem;
+    margin-left: 5px;
+
+    &-dim {
+      color: $color-grey;
+    }
+  }
+}

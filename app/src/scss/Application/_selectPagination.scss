@@ -1,0 +1,107 @@
+$select-width: 50px;
+$select-height: 25px;
+$select-border: 1px solid grey;
+$select-options-border: none;
+$border-rad: 2px;
+
+$color-text: black;
+$color-bg: whitesmoke;
+$color-hover: silver;
+$color-scrollbar: transparent;
+$color-thumb: transparent;
+$selected-option-padding: 3px 10px;
+$max-option-list-height: 200px;
+$arrow-size: 11px;
+
+.selectPagination {
+  margin: 0 5px;
+
+  //predefined styles
+  width: $select-width;
+  height: $select-height;
+  background-color: $color-bg;
+  color: $color-text;
+  position: relative;
+  border-bottom: $select-border;
+  border-radius: $border-rad;
+
+  .selected {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: $selected-option-padding;
+    cursor: pointer;
+    position: relative;
+
+    &__text {
+      font-size: 0.8rem;
+    }
+
+    .iconWrapper {
+      font-size: $arrow-size;
+      position: absolute;
+      right: 5px;
+
+      &__icon {
+        transform: rotateX(180deg);
+        transition: all 0.4s;
+
+        &-rotate {
+          transition: all 0.4s;
+        }
+      }
+    }
+  }
+
+  .optionsContainer {
+    background-color: $color-bg;
+    max-height: 0;
+    width: 100%;
+    transition: all 0.3s;
+    border: $select-options-border;
+    border-radius: $border-rad;
+    overflow: hidden;
+    position: absolute;
+    top: $select-height;
+    opacity: 0;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      border-radius: 0 $border-rad $border-rad 0;
+      background-color: $color-scrollbar;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-thumb;
+      border-radius: 0 $border-rad $border-rad 0;
+    }
+  }
+
+  .active {
+    max-height: $max-option-list-height;
+    overflow-y: auto;
+    opacity: 1;
+  }
+
+  .option {
+    cursor: pointer;
+    width: 100px;
+
+    &__label {
+      cursor: pointer;
+      width: 100%;
+      padding: $selected-option-padding;
+      display: inline-block;
+    }
+
+    &:hover {
+      background-color: $color-hover;
+    }
+  }
+
+  .radio {
+    display: none;
+  }
+}

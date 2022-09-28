@@ -1,0 +1,46 @@
+.paginationRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+
+  &__select {
+    font-size: 0.7rem;
+    font-weight: 600;
+    border: none;
+    width: 40px;
+    margin: 0 5px;
+    @include tablet {
+      font-size: 0.8rem;
+      width: 70px;
+    }
+  }
+
+  &__text {
+    font-size: 0.7rem;
+    line-height: 0.9rem;
+    font-weight: 600;
+    margin-right: 10px;
+    @include tablet {
+      font-size: 0.8rem;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .d-none {
+    display: none;
+  }
+}

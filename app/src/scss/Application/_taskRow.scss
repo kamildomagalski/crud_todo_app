@@ -1,0 +1,102 @@
+.taskRow {
+  display: flex;
+  align-items: center;
+  padding: 13px 0 13px 15px;
+  border-bottom: 1px solid $bg-color-light;
+
+  &:hover {
+    .taskRow__deleteBtn {
+      display: block;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__text {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    line-height: 1.1rem;
+
+    &-taskName {
+      width: 50%;
+      flex-grow: 1;
+      @include desktop {
+        margin-right: 30px;
+      }
+    }
+
+    &-priority {
+      width: 70px;
+      margin: 0 15px 0 15px;
+      @include tablet {
+        width: 90px;
+        margin: 0 5px 0 15px;
+      }
+      @include desktop {
+        width: 150px;
+      }
+    }
+  }
+
+  &__checkboxWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    @include desktop {
+      margin-right: 60px;
+    }
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    border: 1px solid $color-grey;
+    flex-shrink: 0;
+    padding: 7px;
+
+    &-done {
+      position: relative;
+      border: 1px solid $color-warning;
+      background-color: $color-warning;
+    }
+  }
+
+  &__checkIcon {
+    font-size: 0.7rem;
+    color: $color-light;
+  }
+
+  &__btnWrapper {
+    color: $color-light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    @include tablet {
+      width: 50px;
+    }
+  }
+
+  &__deleteBtn {
+    font-size: 1.1rem;
+    display: none;
+    color: $color-warning;
+    @include mobile {
+      display: block;
+    }
+  }
+}
