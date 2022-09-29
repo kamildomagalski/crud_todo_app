@@ -2,10 +2,11 @@ require("dotenv").config(); //allows env variables to be set on process.env
 
 const express = require("express");
 const app = express();
-const db = require("./config/db");
+const cors = require("cors");
 
 // parse requests of content-type - application/json (middleware)
 app.use(express.json());
+app.use(cors());
 
 // simple route
 app.get("/", (req, res) => {
