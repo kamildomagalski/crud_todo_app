@@ -5,11 +5,10 @@ import HeaderRow from "./HeaderRow";
 import AddTaskRow from "./AddTaskRow";
 import { sortByEnumProperty, sortByProperty } from "../functions/utilities";
 import PaginationRow from "./PaginationRow";
+import { APIdeleteTask, APIgetAllToDos } from "../utils/apiQueries";
 
 function ToDoApp() {
-  const [tasks, setTasks] = useState(
-    JSON.parse(localStorage.getItem("tasks")) || []
-  );
+  const [tasks, setTasks] = useState([]);
   const [sorting, setSorting] = useState(
     JSON.parse(localStorage.getItem("sorting")) || {}
   );
@@ -33,22 +32,26 @@ function ToDoApp() {
     setCurrentPage(1);
   }, [tasksPerPage]);
 
+  const handleGetData = async () => {
+    const todos = await APIgetAllToDos();
+    if (todos) setTasks(todos);
+  };
+
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    handleGetData();
+  }, []);
+  useEffect(() => {
     localStorage.setItem("tasksPerPage", JSON.stringify(tasksPerPage));
     localStorage.setItem("sorting", JSON.stringify(sorting));
-  }, [tasks, tasksPerPage, sorting]);
+  }, [tasksPerPage, sorting]);
 
-  const addTask = (newTask) => {
-    setTasks((prevState) => [...prevState, newTask]);
-  };
   const changeNumberOfRows = (value) => {
     setTasksPerPage(value);
   };
   const setDone = (id) => {
     setTasks(
       tasks.map((item) => {
-        if (item.id === id) {
+        if (item.id_todo === id) {
           return {
             ...item,
             done: !item.done,
@@ -59,8 +62,14 @@ function ToDoApp() {
     );
   };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((item) => item.id !== id));
+  const addTask = (newTask) => {
+    setTasks((prevState) => [...prevState, newTask]);
+  };
+
+  const deleteTask = async (id) => {
+    const deleted = await APIdeleteTask(id);
+    if (!deleted) return;
+    setTasks(tasks.filter((item) => item.id_todo !== id));
   };
 
   const setPage = (number) => {
@@ -113,7 +122,6 @@ function ToDoApp() {
       done: order,
     });
   }
-
   return (
     <section className={"toDoApp"}>
       <div className={"container"}>
@@ -130,7 +138,7 @@ function ToDoApp() {
           {currentTasks.map((task) => {
             return (
               <TaskRow
-                key={task.id}
+                key={task.id_todo}
                 task={task}
                 setDone={setDone}
                 deleteTask={deleteTask}

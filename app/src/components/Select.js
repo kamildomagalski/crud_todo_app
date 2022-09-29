@@ -23,7 +23,6 @@ function Select({ title, options, selectValue, changeHandler, className }) {
     changeHandler(e.target.value);
     handleClose();
   };
-
   return (
     <div className={`${className}`}>
       <div

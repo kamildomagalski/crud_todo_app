@@ -1,15 +1,26 @@
 .taskRow {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 13px 0 13px 15px;
   border-bottom: 1px solid $bg-color-light;
-
+  width: 100%;
   &:hover {
     .taskRow__deleteBtn {
       display: block;
     }
   }
-
+  &__mainWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  &__titleWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
   &__wrapper {
     display: flex;
     align-items: center;
@@ -22,13 +33,20 @@
     line-height: 1.1rem;
 
     &-taskName {
+      font-weight: 700;
       width: 50%;
       flex-grow: 1;
+      margin-bottom: 10px;
       @include desktop {
         margin-right: 30px;
       }
     }
-
+    &-description{
+      font-weight: 700;
+    }
+    &-dueDate{
+      font-size: 10px;
+    }
     &-priority {
       width: 70px;
       margin: 0 15px 0 15px;

@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import LabelWrapper from "./LabelWrapper";
 import Select from "./Select";
+import { APIaddTask } from "../utils/apiQueries";
 
 function AddTaskRow({ addTask }) {
   const [errors, setErrors] = useState({
     descriptionErrorMsg: "",
     priorityErrorMsg: "",
+    dueDateErrorMsg: "",
   });
 
   const [newTask, setNewTask] = useState({
-    id: "",
+    id_todo: "",
     title: "",
     description: "",
     due_date: "",
@@ -18,10 +20,12 @@ function AddTaskRow({ addTask }) {
     done: false,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
-    addTask(newTask);
+    if (!validate()) return console.log("Could not add new todo.");
+    const newToDo = await APIaddTask(newTask);
+    if (!newToDo) return;
+    addTask(newToDo);
     clearErrors();
     clearNewTask();
   };
@@ -33,20 +37,20 @@ function AddTaskRow({ addTask }) {
   };
   const setTask = (e) => {
     const { name, value } = e.target;
-    let id = uuidv4();
+    let id_todo = uuidv4();
     setNewTask((prevState) => ({
       ...prevState,
-      id,
+      id_todo,
       [name]: value,
     }));
   };
 
   function validate() {
     let isValid = true;
-    if (newTask.description.length < 5) {
+    if (newTask.title.length < 5) {
       setErrors((prevState) => ({
         ...prevState,
-        descriptionErrorMsg: "Description must contain at least 5 characters.",
+        descriptionErrorMsg: "Title must contain at least 5 characters.",
       }));
       isValid = false;
     }
@@ -57,22 +61,30 @@ function AddTaskRow({ addTask }) {
       }));
       isValid = false;
     }
+    if (newTask.due_date === "") {
+      setErrors((prevState) => ({
+        ...prevState,
+        dueDateErrorMsg: "You have to set due date.",
+      }));
+      isValid = false;
+    }
     return isValid;
   }
-
-  console.log(errors);
 
   function clearErrors() {
     setErrors({
       descriptionErrorMsg: "",
       priorityErrorMsg: "",
+      dueDateErrorMsg: "",
     });
   }
 
   function clearNewTask() {
     setNewTask({
-      id: "",
+      id_todo: "",
+      title: "",
       description: "",
+      due_date: "",
       priority: "select...",
       done: false,
     });
@@ -80,11 +92,14 @@ function AddTaskRow({ addTask }) {
 
   // is it bug: double validation??
   function shouldHideDescriptionMsgOff() {
-    return newTask.description.length < 5;
+    return newTask.title.length < 5;
   }
 
   function shouldHidePriorityMsgOff() {
     return newTask.priority === "select...";
+  }
+  function shouldHideDueDateMsgOff() {
+    return newTask.due_date === "";
   }
 
   return (
@@ -129,7 +144,7 @@ function AddTaskRow({ addTask }) {
               value={newTask.due_date}
               name={"due_date"}
               onChange={setTask}
-              type={"date"}
+              type={"datetime-local"}
               className={"addTaskRow__input addTaskRow__input-date"}
             />
           </LabelWrapper>
@@ -144,6 +159,9 @@ function AddTaskRow({ addTask }) {
         }
       >
         {errors.descriptionErrorMsg}
+      </p>
+      <p className={shouldHideDueDateMsgOff() ? "addTaskRow__error" : "d-none"}>
+        {errors.dueDateErrorMsg}
       </p>
       <p
         className={shouldHidePriorityMsgOff() ? "addTaskRow__error" : "d-none"}

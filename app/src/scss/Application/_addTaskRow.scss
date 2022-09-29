@@ -16,12 +16,15 @@
 
     @include tablet {
       flex-direction: row;
-      align-items: flex-start;
+      align-items: flex-end;
       flex-grow: 1;
     }
   }
   &__label{
     width: 100%;
+    &>p{
+      margin: 4px 0 2px;
+    }
   }
   &__text{
     color: $color-light
@@ -49,7 +52,7 @@
       }
     }
     &-date{
-      max-width: 110px;
+      max-width: 170px;
     }
   }
 
@@ -77,6 +80,7 @@
     font-family: $font-base;
     border: 1px solid $border-color-dark;
     border-radius: 2px;
+    margin-top: 10px;
     @include tablet {
       width: inherit;
     }
