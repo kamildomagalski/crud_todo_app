@@ -13,6 +13,21 @@ img {
   max-height: 100%;
 }
 
+.headerContainer {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+  @include tablet {
+    max-width: 650px;
+    padding: 0 20px;
+  }
+  @include desktop {
+    max-width: 1000px;
+    padding: 0 80px;
+  }
+}
+
 .container {
   max-width: 400px;
   width: 100%;
