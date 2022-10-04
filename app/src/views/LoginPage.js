@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import useAuth from "../auth/useAuth";
 import RowContainer from "../components/RowContainer";
 
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({ login: "", password: "" });
+  const [loginError, setLoginError] = useState(null);
   const history = useHistory();
+  let location = useLocation();
+  let auth = useAuth();
+
+  let { from } = location.state || { from: { pathname: "/todo" } };
 
   const handleCredentials = (e) => {
     const { name, value } = e.target;
@@ -14,10 +20,15 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (credentials.login !== "") {
-      history.push("/todo");
+      const error = await auth.signIn(credentials, () => {
+        history.replace(from);
+      });
+      if (error) {
+        setLoginError(error);
+      }
     }
   };
   return (
@@ -46,6 +57,7 @@ export default function LoginPage() {
               className={"loginPage__label loginPage__label__input-text"}
             />
           </label>
+          {loginError && <p className={"loginError"}>{`${loginError}`}</p>}
           <button className={"loginPage__btn"}>Submit</button>
           <p className={"registerInfo"}>
             Don't have an account? <Link to={"/register"}>Register</Link> now!
