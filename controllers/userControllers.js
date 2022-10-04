@@ -23,10 +23,14 @@ exports.registerNewUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   const { login, password } = req.body.credentials;
   try {
-    const [result] = await User.login(login, password);
-    if (!result) {
-      return res.status(401).send({ message: "Wrong credentials used." }); //unauthorized- wrong login/pass
+    const [result, _] = await User.login(login, password);
+    if (result.length === 0) {
+      return res.status(401).send({ message: "Wrong login or password." }); //unauthorized- wrong login/pass
     }
+    // to nie działa:
+    // if (!result) {
+    //   return res.status(401).send({ message: "Wrong credentials used." }); //unauthorized- wrong login/pass
+    // }
     const user = result[0];
 
     const payload = user;
@@ -52,9 +56,11 @@ exports.logoutUser = async (req, res, next) => {
   try {
     const [isTokenRemoved] = await User.logout(refreshToken);
     if (!isTokenRemoved.affectedRows) {
-      return res.status(404).send({ message: "Unable to logout user." });
+      return res
+        .status(404)
+        .send({ message: "Unable to logout user: no token found." });
     }
-    res.status(200).send({ mesage: "User successfully logged out." });
+    res.status(200).send({ message: "User successfully logged out." });
   } catch (err) {
     console.log(err);
   }
