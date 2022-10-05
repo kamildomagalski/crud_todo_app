@@ -1,5 +1,28 @@
 const baseUrl = "http://localhost:8080";
 
+const headers = {
+  "content-type": "application/json",
+};
+
+export const APIRegister = async (newUser) => {
+  try {
+    const response = await fetch(`${baseUrl}/register`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ newUser }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data.message;
+    } else {
+      const data = await response.json();
+      console.log(data.message);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const APILogIn = async (credentials) => {
   try {
     const response = await fetch(`${baseUrl}/login`, {
@@ -43,6 +66,23 @@ export const APILogOut = async () => {
     }
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const APIRefreshToken = async (refreshToken) => {
+  const response = await fetch(`${baseUrl}/refresh-token`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data.newToken;
+  } else {
+    console.log("Sth is wrong");
   }
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import RowContainer from "../components/RowContainer";
+import { APIRegister } from "../utils/apiQueries";
 
 export default function RegisterPage() {
   const [credentials, setCredentials] = useState({
@@ -8,6 +9,9 @@ export default function RegisterPage() {
     password: "",
     confirm_password: "",
   });
+  const [error, setError] = useState("");
+
+  const history = useHistory();
 
   const handleCredentials = (e) => {
     const { name, value } = e.target;
@@ -17,9 +21,29 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const validate = () => {
+    if (credentials.login.trim().length === 0) {
+      setError("Login must contain at least 3 characters.");
+      return false;
+    }
+    if (credentials.password !== credentials.confirm_password) {
+      setError("Password doesn't match.");
+      return false;
+    }
+    return true;
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    const { login, password } = credentials;
+    const response = await APIRegister({ login, password });
+    if (response) {
+      setError(`${response}\n Redirecting to login page.`);
+      setTimeout(() => history.push("/login"), 2000);
+    }
+  };
+
   return (
     <div className={"registerPage"}>
       <RowContainer>
@@ -57,6 +81,7 @@ export default function RegisterPage() {
               className={"registerPage__label registerPage__label__input-text"}
             />
           </label>
+          {error && <p className={"registerError"}>{`${error}`}</p>}
           <button className={"registerPage__btn"}>Register</button>
           <p className={"registerInfo"}>
             Already got account? Go to <Link to={"/login"}>login page</Link>!

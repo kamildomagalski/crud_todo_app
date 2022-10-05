@@ -27,10 +27,7 @@ exports.loginUser = async (req, res, next) => {
     if (result.length === 0) {
       return res.status(401).send({ message: "Wrong login or password." }); //unauthorized- wrong login/pass
     }
-    // to nie działa:
-    // if (!result) {
-    //   return res.status(401).send({ message: "Wrong credentials used." }); //unauthorized- wrong login/pass
-    // }
+
     const user = result[0];
 
     const payload = user;
