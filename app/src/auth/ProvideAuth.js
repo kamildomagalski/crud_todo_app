@@ -1,9 +1,37 @@
-import React, { createContext } from "react";
-import useProvideAuth from "./useProvideAuth";
+import React, { useState, createContext } from "react";
+import { APILogIn, APILogOut } from "../api/apiQueries";
 
-export const authContext = createContext(null);
+const AuthContext = createContext({});
 
-export default function ProvideAuth({ children }) {
-  const auth = useProvideAuth();
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+export function ProvideAuth({ children }) {
+  const [auth, setAuth] = useState({});
+  console.log(auth);
+
+  const signIn = async (credentials, callback) => {
+    const response = await APILogIn(credentials);
+    if (response.token) {
+      setAuth({
+        user: response.login,
+        token: response.token,
+        refreshToken: response.refreshToken,
+      });
+      callback();
+    } else {
+      return response;
+    }
+  };
+
+  const signOut = async (refreshToken, callback) => {
+    const response = await APILogOut(refreshToken);
+    if (response.ok) {
+      setAuth({});
+      callback();
+    }
+  };
+  return (
+    <AuthContext.Provider value={{ auth, setAuth, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
+export default AuthContext;

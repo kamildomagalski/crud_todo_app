@@ -1,5 +1,7 @@
 import React from "react";
 import ToDoApp from "./components/ToDoApp";
+import { ProvideAuth } from "./auth/ProvideAuth";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faSort,
@@ -15,9 +17,11 @@ import {
 
 function App() {
   return (
-    <>
-      <ToDoApp />
-    </>
+    <React.StrictMode>
+      <ProvideAuth>
+        <ToDoApp />
+      </ProvideAuth>
+    </React.StrictMode>
   );
 }
 

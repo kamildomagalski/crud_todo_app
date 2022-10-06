@@ -34,7 +34,6 @@ export const APILogIn = async (credentials) => {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       return data;
     } else {
       const data = await response.json();

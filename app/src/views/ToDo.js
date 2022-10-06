@@ -8,7 +8,7 @@ import RowContainer from "../components/RowContainer";
 
 import { sortByEnumProperty, sortByProperty } from "../functions/utilities";
 
-import { APIdeleteTask, APIgetAllToDos } from "../utils/apiQueries";
+import { APIdeleteTask, APIgetAllToDos } from "../api/apiQueries";
 
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);

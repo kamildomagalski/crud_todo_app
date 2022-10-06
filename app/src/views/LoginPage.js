@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useHistory, useLocation, useNav } from "react-router-dom";
 import useAuth from "../auth/useAuth";
 import RowContainer from "../components/RowContainer";
 
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({ login: "", password: "" });
   const [loginError, setLoginError] = useState(null);
-  const history = useHistory();
-  let location = useLocation();
   let auth = useAuth();
 
-  let { from } = location.state || { from: { pathname: "/todo" } };
+  const history = useHistory();
+  let location = useLocation();
+
+  const userRef = useRef();
+
+  let { from } = location.state || { from: { pathname: "/" } };
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
 
   const handleCredentials = (e) => {
     const { name, value } = e.target;
@@ -42,6 +49,9 @@ export default function LoginPage() {
               value={credentials.login}
               name={"login"}
               onChange={handleCredentials}
+              ref={userRef}
+              autoComplete={"off"}
+              required
               type={"text"}
               placeholder={"Enter your login"}
               className={"loginPage__label loginPage__label__input-text"}
@@ -54,6 +64,7 @@ export default function LoginPage() {
               name={"password"}
               onChange={handleCredentials}
               type={"password"}
+              required
               placeholder={"Enter your password"}
               className={"loginPage__label loginPage__label__input-text"}
             />

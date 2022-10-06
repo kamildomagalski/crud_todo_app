@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import RowContainer from "../components/RowContainer";
-import { APIRegister } from "../utils/apiQueries";
+import { APIRegister } from "../api/apiQueries";
 
 export default function RegisterPage() {
   const [credentials, setCredentials] = useState({
@@ -53,6 +53,7 @@ export default function RegisterPage() {
             <input
               value={credentials.login}
               name={"login"}
+              autoComplete={"off"}
               onChange={handleCredentials}
               type={"text"}
               placeholder={"Enter your login"}

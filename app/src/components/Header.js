@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import useAuth from "../auth/useAuth";
-import { APILogOut } from "../utils/apiQueries";
+import { APILogOut } from "../api/apiQueries";
 
 export default function Header() {
-  let auth = useAuth();
+  let { auth } = useAuth();
   let history = useHistory();
 
   const LogInButton = () => (

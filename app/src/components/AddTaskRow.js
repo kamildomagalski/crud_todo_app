@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import LabelWrapper from "./LabelWrapper";
 import Select from "./Select";
-import { APIaddTask } from "../utils/apiQueries";
+import { APIaddTask } from "../api/apiQueries";
 
 function AddTaskRow({ addTask }) {
   const [errors, setErrors] = useState({

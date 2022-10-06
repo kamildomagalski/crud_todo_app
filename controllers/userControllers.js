@@ -42,7 +42,9 @@ exports.loginUser = async (req, res, next) => {
         .send({ message: "Could not generate auth token, please try again." }); //problem with creating refresh token
     }
 
-    res.status(200).send({ token, refreshToken, message: "User logged in!" });
+    res
+      .status(200)
+      .send({ login, token, refreshToken, message: "User logged in!" });
   } catch (err) {
     console.log(err);
   }
