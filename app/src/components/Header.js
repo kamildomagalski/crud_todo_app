@@ -4,21 +4,24 @@ import useAuth from "../auth/useAuth";
 import { APILogOut } from "../api/apiQueries";
 
 export default function Header() {
-  let { auth } = useAuth();
+  let { auth, setAuth } = useAuth();
   let history = useHistory();
-
+  const handleLogOut = async () => {
+    const isDeleted = await APILogOut(auth.refreshToken);
+    if (isDeleted) {
+      setAuth({});
+      history.push("/");
+    } else {
+      console.log(isDeleted);
+    }
+  };
   const LogInButton = () => (
     <Link to={"/login"} className={"header__btn"}>
       Log In
     </Link>
   );
   const LogOutButton = () => (
-    <button
-      onClick={async () => {
-        await APILogOut(() => history.push("/"));
-      }}
-      className={"header__btn"}
-    >
+    <button onClick={handleLogOut} className={"header__btn"}>
       Log Out
     </button>
   );

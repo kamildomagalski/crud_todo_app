@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-
+import useAuth from "../auth/useAuth";
 import TaskRow from "../components/TaskRow";
 import HeaderRow from "../components/HeaderRow";
 import AddTaskRow from "../components/AddTaskRow";
 import PaginationRow from "../components/PaginationRow";
 import RowContainer from "../components/RowContainer";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 import { sortByEnumProperty, sortByProperty } from "../functions/utilities";
 
@@ -21,6 +22,7 @@ export default function ToDo() {
   );
   const [currentPage, setCurrentPage] = useState(1);
 
+  const axiosPrivate = useAxiosPrivate();
   //Pagination
   const maxTaskIndex = currentPage * tasksPerPage;
   const minTaskIndex = maxTaskIndex - tasksPerPage;
@@ -36,8 +38,9 @@ export default function ToDo() {
   }, [tasksPerPage]);
 
   const handleGetData = async () => {
-    const todos = await APIgetAllToDos();
-    if (todos) setTasks(todos);
+    const newToDos = await APIgetAllToDos(axiosPrivate);
+    console.log(newToDos);
+    if (newToDos) setTasks(newToDos);
   };
 
   useEffect(() => {
@@ -70,7 +73,7 @@ export default function ToDo() {
   };
 
   const deleteTask = async (id) => {
-    const deleted = await APIdeleteTask(id);
+    const deleted = await APIdeleteTask(axiosPrivate, id);
     if (!deleted) return;
     setTasks(tasks.filter((item) => item.id_todo !== id));
   };

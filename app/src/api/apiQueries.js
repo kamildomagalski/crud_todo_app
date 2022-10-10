@@ -1,22 +1,12 @@
-const baseUrl = "http://localhost:8080";
-
-const headers = {
-  "content-type": "application/json",
-};
+import axios from "./axios";
 
 export const APIRegister = async (newUser) => {
   try {
-    const response = await fetch(`${baseUrl}/register`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ newUser }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data.message;
+    const response = await axios.post("/register", { newUser });
+    if (response) {
+      return response.data.message;
     } else {
-      const data = await response.json();
-      console.log(data.message);
+      console.log(response.data.message);
     }
   } catch (err) {
     console.log(err);
@@ -25,43 +15,27 @@ export const APIRegister = async (newUser) => {
 
 export const APILogIn = async (credentials) => {
   try {
-    const response = await fetch(`${baseUrl}/login`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ credentials }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
+    const response = await axios.post("/login", { credentials });
+    if (response.status === 200) {
+      return response.data;
     } else {
-      const data = await response.json();
       console.log("Could not authorizate on backend");
-      return data.message;
+      return response.data.message;
     }
   } catch (err) {
     console.log(err);
   }
 };
 
-export const APILogOut = async () => {
-  const refreshToken = "";
+export const APILogOut = async (refreshToken) => {
   try {
-    const response = await fetch(`${baseUrl}/logout`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      return data;
+    const response = await axios.post("logout", { refreshToken });
+    if (response.status === 200) {
+      console.log(response.data.message);
+      return response.data.message;
     } else {
-      const data = await response.json();
-      console.log(data.message);
+      console.log(response.data.message);
+      return false;
     }
   } catch (err) {
     console.log(err);
@@ -69,65 +43,42 @@ export const APILogOut = async () => {
 };
 
 export const APIRefreshToken = async (refreshToken) => {
-  const response = await fetch(`${baseUrl}/refresh-token`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ refreshToken }),
-  });
+  const response = await axios.post(
+    "/refresh-token",
+    { refreshToken },
+    { withCredentials: true }
+  );
 
-  if (response.ok) {
-    const data = await response.json();
-    return data.newToken;
+  if ((response.status = 200)) {
+    return response.data.newToken;
   } else {
-    console.log("Sth is wrong");
+    console.log("Could not get new token");
   }
 };
 
-export const APIgetAllToDos = async () => {
-  const response = await fetch(`${baseUrl}/todos`, {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-    },
-  });
-  if (response.ok) {
-    const data = await response.json();
-    return data.todos;
+export const APIgetAllToDos = async (axios) => {
+  const response = await axios.get("/todos");
+  if (response.status === 200) {
+    return response.data.todos;
   } else {
     console.log("Fetching gone wrong!");
     return [];
   }
 };
 
-export const APIaddTask = async (todo) => {
-  const response = await fetch(`${baseUrl}/todos/todo`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ todo: todo }),
-  });
-  if (response.ok) {
-    const data = await response.json();
-    return data.newToDo;
+export const APIaddTask = async (axios, todo) => {
+  const response = await axios.post("/todos/todo", { todo });
+  if ((response.status = 200)) {
+    return response.data.newToDo;
   } else {
     return false;
   }
 };
 
-export const APIdeleteTask = async (id) => {
-  const response = await fetch(`${baseUrl}/todos/todo/${id}`, {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json",
-    },
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    console.log(data.message);
+export const APIdeleteTask = async (axios, id) => {
+  const response = await axios.delete(`/todos/todo/${id}`);
+  if (response.status === 200) {
+    console.log(response.data.message);
     return true;
   } else {
     return false;

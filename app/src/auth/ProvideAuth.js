@@ -5,7 +5,6 @@ const AuthContext = createContext({});
 
 export function ProvideAuth({ children }) {
   const [auth, setAuth] = useState({});
-  console.log(auth);
 
   const signIn = async (credentials, callback) => {
     const response = await APILogIn(credentials);

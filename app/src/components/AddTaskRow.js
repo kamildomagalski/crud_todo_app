@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import LabelWrapper from "./LabelWrapper";
 import Select from "./Select";
 import { APIaddTask } from "../api/apiQueries";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 function AddTaskRow({ addTask }) {
   const [errors, setErrors] = useState({
@@ -19,11 +20,12 @@ function AddTaskRow({ addTask }) {
     priority: "select...",
     done: false,
   });
+  const axiosPrivate = useAxiosPrivate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return console.log("Could not add new todo.");
-    const newToDo = await APIaddTask(newTask);
+    const newToDo = await APIaddTask(axiosPrivate, newTask);
     if (!newToDo) return;
     addTask(newToDo);
     clearErrors();

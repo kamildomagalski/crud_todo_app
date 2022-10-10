@@ -7,8 +7,18 @@ const { authMiddleware } = require("./controllers/authControllers");
 
 // parse requests of content-type - application/json (middleware)
 app.use(express.json());
+
+const whiteslist = ["http://localhost:3000"];
 const options = {
-  origin: "*",
+  origin: (origin, callback) => {
+    if (whiteslist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Domain not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 app.use(cors(options));
 
