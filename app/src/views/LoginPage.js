@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useHistory, useLocation, useNav } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import useAuth from "../auth/useAuth";
 import RowContainer from "../components/RowContainer";
 
@@ -10,10 +10,9 @@ export default function LoginPage() {
 
   const history = useHistory();
   let location = useLocation();
-
   const userRef = useRef();
 
-  let { from } = location.state || { from: { pathname: "/" } };
+  let from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     userRef.current.focus();

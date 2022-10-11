@@ -33,7 +33,7 @@ exports.loginUser = async (req, res, next) => {
     const payload = user;
 
     const token = jwt.sign(payload, ACCESS_TOKEN, { expiresIn: "20s" });
-    const refreshToken = jwt.sign(payload, REFRESH_TOKEN, { expiresIn: "3d" });
+    const refreshToken = jwt.sign(payload, REFRESH_TOKEN, { expiresIn: "1h" });
 
     const [isTokenSaved] = await Auth.addRefreshToken(refreshToken);
     if (!isTokenSaved) {

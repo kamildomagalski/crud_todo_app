@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../auth/useAuth";
+import { useLocation, useHistory } from "react-router-dom";
+
 import TaskRow from "../components/TaskRow";
 import HeaderRow from "../components/HeaderRow";
 import AddTaskRow from "../components/AddTaskRow";
@@ -23,6 +24,9 @@ export default function ToDo() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const axiosPrivate = useAxiosPrivate();
+  const history = useHistory();
+  const location = useLocation();
+
   //Pagination
   const maxTaskIndex = currentPage * tasksPerPage;
   const minTaskIndex = maxTaskIndex - tasksPerPage;
@@ -37,15 +41,20 @@ export default function ToDo() {
     setCurrentPage(1);
   }, [tasksPerPage]);
 
-  const handleGetData = async () => {
-    const newToDos = await APIgetAllToDos(axiosPrivate);
-    console.log(newToDos);
-    if (newToDos) setTasks(newToDos);
-  };
-
   useEffect(() => {
+    const handleGetData = async () => {
+      try {
+        const newToDos = await APIgetAllToDos(axiosPrivate);
+        if (newToDos) setTasks(newToDos);
+      } catch (err) {
+        console.log(err);
+        history.push("/login", { from: location });
+      }
+    };
+
     handleGetData();
-  }, []);
+  }, [axiosPrivate, location, history]);
+
   useEffect(() => {
     localStorage.setItem("tasksPerPage", JSON.stringify(tasksPerPage));
     localStorage.setItem("sorting", JSON.stringify(sorting));

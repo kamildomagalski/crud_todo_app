@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useAuth from "../auth/useAuth";
 
 export default function MainPage() {
   let { auth } = useAuth();
-  console.log(auth);
+
   return (
     <div className={"mainPage"}>
       {auth.user ? (
