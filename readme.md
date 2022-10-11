@@ -11,3 +11,4 @@
 - password hash on backend
 - share you tasks with anoyher user
 - subtasks
+- check if username is taken at registration
