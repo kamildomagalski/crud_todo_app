@@ -5,6 +5,7 @@
 
 #### Todo:
 - add edit mode on frontend
+- add setDone on frontend
 - add webhooks
 - deploy on AWS
 - dynamic loading of todos
