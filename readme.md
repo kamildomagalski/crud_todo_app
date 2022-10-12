@@ -4,7 +4,9 @@
 
 
 #### Todo:
+- handle errors when log with non existing user login
 - add edit mode on frontend
+- add setDone on frontend
 - add webhooks
 - deploy on AWS
 - dynamic loading of todos
@@ -13,3 +15,4 @@
 - subtasks
 - check if username is taken at registration
 - action logger middleware
+- 
