@@ -3,8 +3,10 @@ require("dotenv").config(); //allows env variables to be set on process.env
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
 const cookieParser = require("cookie-parser");
-const { authMiddleware } = require("./controllers/authControllers");
+const authMiddleware = require("./middlewares/authMiddleware");
+const credentialsMiddleware = require("./middlewares/credentialsMiddleware");
 
 // parse requests of content-type - application/json (middleware)
 app.use(express.json());
@@ -12,19 +14,11 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser());
 
-const whiteslist = ["http://localhost:3000", "http://127.0.0.1:5500"];
-const options = {
-  origin: (origin, callback) => {
-    if (whiteslist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Domain not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
-app.use(cors(options));
+//Handle options credentials check - before CORS!
+app.use(credentialsMiddleware);
+
+//CORS policy handler
+app.use(cors(corsOptions));
 
 // simple route
 app.get("/", (req, res) => {

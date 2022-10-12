@@ -29,8 +29,10 @@ exports.loginUser = async (req, res, next) => {
     }
 
     const user = result[0];
-
-    const payload = user;
+    const payload = {
+      login: user.login,
+      role: user.role,
+    };
 
     const token = jwt.sign(payload, ACCESS_TOKEN, { expiresIn: "20s" });
     const refreshToken = jwt.sign(payload, REFRESH_TOKEN, { expiresIn: "1h" });
@@ -47,6 +49,7 @@ exports.loginUser = async (req, res, next) => {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
         secure: true,
+        sameSite: "None",
       })
       .send({ login, token, message: "User logged in!" });
   } catch (err) {
@@ -56,7 +59,6 @@ exports.loginUser = async (req, res, next) => {
 
 exports.logoutUser = async (req, res, next) => {
   const cookies = req.cookies;
-  console.log(cookies);
   if (!cookies?.jwt)
     return res.status(401).send({
       message: "Refresh token not provided in request. Could not log out.",
@@ -67,10 +69,14 @@ exports.logoutUser = async (req, res, next) => {
     const [isTokenRemoved] = await User.logout(refreshToken);
     if (!isTokenRemoved.affectedRows) {
       return res
-        .status(404)
+        .status(403)
+        .clearCookie("jwt", { httpOnly: true, secure: true, sameSite: "None" })
         .send({ message: "Unable to logout user: no token found." });
     }
-    res.status(200).send({ message: "User successfully logged out." });
+    res
+      .status(200)
+      .clearCookie("jwt", { httpOnly: true, secure: true })
+      .send({ message: "User successfully logged out." });
   } catch (err) {
     console.log(err);
   }
