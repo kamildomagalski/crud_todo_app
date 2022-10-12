@@ -41,17 +41,28 @@ exports.loginUser = async (req, res, next) => {
         .status(401)
         .send({ message: "Could not generate auth token, please try again." }); //problem with creating refresh token
     }
-
     res
       .status(200)
-      .send({ login, token, refreshToken, message: "User logged in!" });
+      .cookie("jwt", refreshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        secure: true,
+      })
+      .send({ login, token, message: "User logged in!" });
   } catch (err) {
     console.log(err);
   }
 };
 
 exports.logoutUser = async (req, res, next) => {
-  const { refreshToken } = req.body;
+  const cookies = req.cookies;
+  console.log(cookies);
+  if (!cookies?.jwt)
+    return res.status(401).send({
+      message: "Refresh token not provided in request. Could not log out.",
+    });
+
+  const refreshToken = cookies.jwt;
   try {
     const [isTokenRemoved] = await User.logout(refreshToken);
     if (!isTokenRemoved.affectedRows) {

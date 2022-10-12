@@ -21,17 +21,23 @@ exports.authMiddleware = (req, res, next) => {
 };
 
 exports.refreshToken = async (req, res, next) => {
-  const { refreshToken } = req.body;
+  const cookies = req.cookies;
+  if (!cookies?.jwt)
+    return res.status(401).send({
+      message: "Refresh token not provided in request. Log in again.",
+    });
+
+  const refreshToken = cookies.jwt;
+
   try {
     const [isRefreshTokenValid] = await Auth.refreshToken(refreshToken);
     if (!isRefreshTokenValid) {
-      return res
-        .status(401)
-        .send({ message: "Could not refresh session, please log in again." }); //session expired
+      return res.status(403).send({
+        message: "Unauthorized user- could not match a refresh token",
+      }); //session expired
     }
-    const token = isRefreshTokenValid[0]?.refresh_token;
 
-    jwt.verify(token, REFRESH_TOKEN, (err, data) => {
+    jwt.verify(refreshToken, REFRESH_TOKEN, (err, data) => {
       if (err) {
         return res.status(403).send({ message: "Unauthorized user." });
       }
@@ -40,11 +46,13 @@ exports.refreshToken = async (req, res, next) => {
         role: data.role,
       };
 
-      const newToken = jwt.sign(payload, ACCESS_TOKEN, {
+      const newAccessToken = jwt.sign(payload, ACCESS_TOKEN, {
         expiresIn: "20s",
       });
 
-      res.status(200).send({ newToken, message: "New token created" });
+      res
+        .status(200)
+        .send({ newAccessToken, message: "New access token created" });
     });
   } catch (err) {
     console.log(err);

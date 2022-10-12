@@ -2,14 +2,14 @@ import useAuth from "../auth/useAuth";
 import { APIRefreshToken } from "../api/apiQueries";
 
 const useRefreshToken = () => {
-  const { setAuth, auth } = useAuth();
+  const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const newToken = await APIRefreshToken(auth.refreshToken);
+    const newAccessToken = await APIRefreshToken();
     setAuth((prev) => {
-      return { ...prev, token: newToken };
+      return { ...prev, token: newAccessToken };
     });
-    return newToken;
+    return newAccessToken;
   };
   return refresh;
 };

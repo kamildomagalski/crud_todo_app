@@ -1,19 +1,12 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import useAuth from "../auth/useAuth";
-import { APILogOut } from "../api/apiQueries";
 
 export default function Header() {
-  let { auth, setAuth } = useAuth();
+  let { auth, signOut } = useAuth();
   let history = useHistory();
   const handleLogOut = async () => {
-    const isDeleted = await APILogOut(auth.refreshToken);
-    if (isDeleted) {
-      setAuth({});
-      history.push("/");
-    } else {
-      console.log(isDeleted);
-    }
+    await signOut(() => history.push("/"));
   };
   const LogInButton = () => (
     <Link to={"/login"} className={"header__btn"}>

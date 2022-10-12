@@ -11,6 +11,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { sortByEnumProperty, sortByProperty } from "../functions/utilities";
 
 import { APIdeleteTask, APIgetAllToDos } from "../api/apiQueries";
+import useAuth from "../auth/useAuth";
 
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
@@ -26,7 +27,7 @@ export default function ToDo() {
   const axiosPrivate = useAxiosPrivate();
   const history = useHistory();
   const location = useLocation();
-
+  const { setAuth } = useAuth();
   //Pagination
   const maxTaskIndex = currentPage * tasksPerPage;
   const minTaskIndex = maxTaskIndex - tasksPerPage;
@@ -48,12 +49,13 @@ export default function ToDo() {
         if (newToDos) setTasks(newToDos);
       } catch (err) {
         console.log(err);
+        setAuth({});
         history.push("/login", { from: location });
       }
     };
 
     handleGetData();
-  }, [axiosPrivate, location, history]);
+  }, [axiosPrivate, location, history, setAuth]);
 
   useEffect(() => {
     localStorage.setItem("tasksPerPage", JSON.stringify(tasksPerPage));

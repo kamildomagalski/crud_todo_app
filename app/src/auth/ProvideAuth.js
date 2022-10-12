@@ -12,7 +12,6 @@ export function ProvideAuth({ children }) {
       setAuth({
         user: response.login,
         token: response.token,
-        refreshToken: response.refreshToken,
       });
       callback();
     } else {
@@ -20,9 +19,9 @@ export function ProvideAuth({ children }) {
     }
   };
 
-  const signOut = async (refreshToken, callback) => {
-    const response = await APILogOut(refreshToken);
-    if (response.ok) {
+  const signOut = async (callback) => {
+    const isLoggedOut = await APILogOut();
+    if (isLoggedOut) {
       setAuth({});
       callback();
     }

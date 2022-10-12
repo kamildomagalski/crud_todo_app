@@ -15,8 +15,13 @@ export const APIRegister = async (newUser) => {
 
 export const APILogIn = async (credentials) => {
   try {
-    const response = await axios.post("/login", { credentials });
+    const response = await axios.post(
+      "/login",
+      { credentials },
+      { withCredentials: true }
+    );
     if (response.status === 200) {
+      console.log(response.data.message);
       return response.data;
     } else {
       console.log("Could not authorizate on backend");
@@ -27,9 +32,9 @@ export const APILogIn = async (credentials) => {
   }
 };
 
-export const APILogOut = async (refreshToken) => {
+export const APILogOut = async () => {
   try {
-    const response = await axios.post("logout", { refreshToken });
+    const response = await axios.get("logout", { withCredentials: true });
     if (response.status === 200) {
       console.log(response.data.message);
       return response.data.message;
@@ -42,15 +47,13 @@ export const APILogOut = async (refreshToken) => {
   }
 };
 
-export const APIRefreshToken = async (refreshToken) => {
-  const response = await axios.post(
-    "/refresh-token",
-    { refreshToken },
-    { withCredentials: true }
-  );
+export const APIRefreshToken = async () => {
+  const response = await axios.get("/refresh-token", {
+    withCredentials: true,
+  });
 
   if ((response.status = 200)) {
-    return response.data.newToken;
+    return response.data.newAccessToken;
   } else {
     console.log("Could not get new token");
   }
