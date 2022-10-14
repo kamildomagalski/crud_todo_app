@@ -5,11 +5,11 @@ const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const newAccessToken = await APIRefreshToken();
+    const data = await APIRefreshToken();
     setAuth((prev) => {
-      return { ...prev, token: newAccessToken };
+      return { ...prev, token: data.newAccessToken, user: data.login };
     });
-    return newAccessToken;
+    return data.newAccessToken;
   };
   return refresh;
 };

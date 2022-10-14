@@ -6,7 +6,7 @@ import RowContainer from "../components/RowContainer";
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({ login: "", password: "" });
   const [loginError, setLoginError] = useState(null);
-  let auth = useAuth();
+  let { signIn, persist, setPersist } = useAuth();
 
   const history = useHistory();
   let location = useLocation();
@@ -26,10 +26,14 @@ export default function LoginPage() {
     }));
   };
 
+  const handlePersist = () => {
+    setPersist((persist) => !persist);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (credentials.login !== "") {
-      const error = await auth.signIn(credentials, () => {
+      const error = await signIn(credentials, () => {
         history.replace(from);
       });
       if (error) {
@@ -69,6 +73,15 @@ export default function LoginPage() {
             />
           </label>
           {loginError && <p className={"loginError"}>{`${loginError}`}</p>}
+          <label className={"loginPage__label loginPage__label-persist"}>
+            <input
+              id={"persist"}
+              type="checkbox"
+              checked={persist}
+              onChange={handlePersist}
+            />
+            <p className={"loginPage__label"}>Remember this device?</p>
+          </label>
           <button className={"loginPage__btn"}>Submit</button>
           <p className={"registerInfo"}>
             Don't have an account? <Link to={"/register"}>Register</Link> now!

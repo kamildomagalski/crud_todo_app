@@ -10,6 +10,7 @@ import RegisterPage from "../views/RegisterPage";
 import ToDo from "../views/ToDo";
 import MainPage from "../views/MainPage";
 import PrivateRoute from "../auth/PrivateRoute";
+import PersistLogin from "./PersistLogin";
 
 function ToDoApp() {
   return (
@@ -22,10 +23,12 @@ function ToDoApp() {
         </div>
         <div className={"container"}>
           <Switch>
-            <PrivateRoute exact path="/todo">
-              <ToDo />
-            </PrivateRoute>
             <Route exact path="/" component={MainPage} />
+            <PersistLogin exact path="/todo">
+              <PrivateRoute>
+                <ToDo />
+              </PrivateRoute>
+            </PersistLogin>
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/register" component={RegisterPage} />
           </Switch>

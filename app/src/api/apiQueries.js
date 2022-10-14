@@ -34,7 +34,7 @@ export const APILogIn = async (credentials) => {
 
 export const APILogOut = async () => {
   try {
-    const response = await axios.get("logout", { withCredentials: true });
+    const response = await axios.get("/logout", { withCredentials: true });
     if (response.status === 200) {
       console.log(response.data.message);
       return response.data.message;
@@ -53,7 +53,8 @@ export const APIRefreshToken = async () => {
   });
 
   if ((response.status = 200)) {
-    return response.data.newAccessToken;
+    const { login, role, newAccessToken } = response.data;
+    return { login, role, newAccessToken };
   } else {
     console.log("Could not get new token");
   }

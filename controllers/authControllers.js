@@ -36,7 +36,11 @@ exports.refreshToken = async (req, res, next) => {
 
       res
         .status(200)
-        .send({ newAccessToken, message: "New access token created" });
+        .send({
+          ...payload,
+          newAccessToken,
+          message: "New access token created",
+        });
     });
   } catch (err) {
     console.log(err);

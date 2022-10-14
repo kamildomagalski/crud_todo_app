@@ -15,4 +15,7 @@
 - subtasks
 - check if username is taken at registration
 - action logger middleware
-- 
+
+
+#### Known bugs:
+- doble rendering of ProvideAuth, PersistLogin component

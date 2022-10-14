@@ -26,6 +26,12 @@
 
       margin: 4px 0 2px;
     }
+    &-persist{
+      display: flex;
+      justify-content: space-between;
+      width: 188px;
+      margin-top: 10px;
+    }
   }
   &__text{
     color: $color-light
