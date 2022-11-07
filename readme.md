@@ -14,9 +14,10 @@
 - share you tasks with anoyher user
 - subtasks
 - check if username is taken at registration
-- action logger middleware
+- ~~action logger middleware~~
 - add some custom hooks to simplify logic (useLocalStorage, useToggleCheckbox, useInput)
 - disable React DevTools on production 
 
 #### Known bugs:
 - doble rendering of ProvideAuth, PersistLogin component
+- after logout should be no refresh-token request
