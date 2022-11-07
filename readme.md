@@ -10,12 +10,13 @@
 - add webhooks
 - deploy on AWS
 - dynamic loading of todos
-- password hash on backend
+- password hash on backend (bcrypt) + decode JWT token on front to retrieve user data.
 - share you tasks with anoyher user
 - subtasks
 - check if username is taken at registration
 - action logger middleware
-
+- add some custom hooks to simplify logic (useLocalStorage, useToggleCheckbox, useInput)
+- disable React DevTools on production 
 
 #### Known bugs:
 - doble rendering of ProvideAuth, PersistLogin component
