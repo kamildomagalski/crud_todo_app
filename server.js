@@ -7,6 +7,10 @@ const corsOptions = require("./config/corsOptions");
 const cookieParser = require("cookie-parser");
 const authMiddleware = require("./middlewares/authMiddleware");
 const credentialsMiddleware = require("./middlewares/credentialsMiddleware");
+const { logger } = require("./middlewares/logEvents");
+
+//custom logger middleware
+app.use(logger);
 
 // parse requests of content-type - application/json (middleware)
 app.use(express.json());
