@@ -4,7 +4,7 @@
 
 
 #### Todo:
-- handle errors when log with non existing user login
+- ~~handle errors when log with non existing user login~~
 - add edit mode on frontend
 - add setDone on frontend
 - add webhooks
