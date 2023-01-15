@@ -23,6 +23,9 @@ export const APILogIn = async (credentials) => {
     if (response.status === 200) {
       console.log(response.data.message);
       return response.data;
+    } else if (response.status === 204) {
+      console.log("False credentials or no user in db");
+      return "False credentials or no user in database";
     } else {
       console.log("Could not authorizate on backend");
       return response.data.message;

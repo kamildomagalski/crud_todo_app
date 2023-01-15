@@ -34,7 +34,7 @@ exports.loginUser = async (req, res, next) => {
     const [result, _] = await User.login(login, password);
     if (result.length === 0) {
       authLogger("unauthorized", "login", "failure", "Wrong login or password");
-      return res.status(401).send({ message: "Wrong login or password." }); //unauthorized- wrong login/pass
+      return res.status(204).send({ message: "Wrong login or password." }); //unauthorized- wrong login/pass
     }
 
     const user = result[0];
