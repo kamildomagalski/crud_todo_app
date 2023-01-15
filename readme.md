@@ -1,6 +1,6 @@
 ## CRUD ToDo App
 
-### first project with a node.js backend and NoSQL database
+### first project with a node.js backend and MySQL database
 
 
 #### Todo:
