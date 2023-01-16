@@ -17,6 +17,7 @@
 - ~~action logger middleware~~
 - add some custom hooks to simplify logic (useLocalStorage, useToggleCheckbox, useInput)
 - disable React DevTools on production 
+- implement Error Boundary and force some errors to check if it is working
 
 #### Known bugs:
 - doble rendering of ProvideAuth, PersistLogin component
