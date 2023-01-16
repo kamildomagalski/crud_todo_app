@@ -22,3 +22,4 @@
 #### Known bugs:
 - doble rendering of ProvideAuth, PersistLogin component
 - after logout should be no refresh-token request
+- login names are not case sensitive
