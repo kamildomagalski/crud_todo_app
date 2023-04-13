@@ -6,7 +6,7 @@
   border-bottom: 1px solid $bg-color-light;
   width: 100%;
   &:hover {
-    .taskRow__deleteBtn {
+    .taskRow__deleteBtn, .taskRow__editBtn {
       display: block;
     }
   }
@@ -109,10 +109,20 @@
     }
   }
 
-  &__deleteBtn {
+  &__editBtn {
     font-size: 1.1rem;
     display: none;
     color: $color-warning;
+    margin-right: 5px;
+    @include mobile {
+      display: block;
+    }
+  }
+
+  &__deleteBtn {
+    font-size: 1.1rem;
+    display: none;
+    color: $color-red;
     @include mobile {
       display: block;
     }

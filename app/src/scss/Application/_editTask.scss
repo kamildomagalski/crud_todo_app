@@ -1,0 +1,21 @@
+.editTask{
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba($color:rgba(255, 255, 255, 0.185), $alpha: 0.7) ;
+
+  &__mask{
+    display: flex;
+
+    height: 100%;
+    width: 100%;
+
+  }
+}

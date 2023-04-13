@@ -89,6 +89,10 @@ export default function ToDo() {
     setTasks(tasks.filter((item) => item.id_todo !== id));
   };
 
+  const editTask = (taskId) => {
+    alert("edit task");
+  };
+
   const setPage = (number) => {
     setCurrentPage(number);
   };

@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { stripToMinutes } from "../utils/helpers";
+import EditTask from "./EditTask";
 
 function TaskRow({ task, setDone, deleteTask }) {
+  const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+
+  const openEditTask = () => {
+    setIsEditTaskOpen((prevState) => !prevState);
+  };
   //turn off error notification when changing inputs
   const isCheckedIconVisible = () => {
     if (task.done === true) {
@@ -15,6 +21,7 @@ function TaskRow({ task, setDone, deleteTask }) {
       return <span className={"taskRow__checkbox"} />;
     }
   };
+
   return (
     <div className={"taskRow"}>
       <div className={"taskRow__mainWrapper"}>
@@ -43,12 +50,18 @@ function TaskRow({ task, setDone, deleteTask }) {
         </span>
         <div className={"taskRow__btnWrapper"}>
           <FontAwesomeIcon
+            icon={"pen-square"}
+            className={"taskRow__editBtn"}
+            onClick={openEditTask}
+          />
+          <FontAwesomeIcon
             icon={"trash"}
             className={"taskRow__deleteBtn"}
             onClick={() => deleteTask(task.id_todo)}
           />
         </div>
       </div>
+      {isEditTaskOpen && <EditTask />}
     </div>
   );
 }
