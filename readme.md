@@ -4,7 +4,7 @@
 
 
 #### Todo:
-- handle errors when log with non existing user login
+- ~~handle errors when log with non existing user login~~
 - add edit mode on frontend
 - add setDone on frontend
 - add webhooks
@@ -17,7 +17,9 @@
 - ~~action logger middleware~~
 - add some custom hooks to simplify logic (useLocalStorage, useToggleCheckbox, useInput)
 - disable React DevTools on production 
+- implement Error Boundary and force some errors to check if it is working
 
 #### Known bugs:
 - doble rendering of ProvideAuth, PersistLogin component
 - after logout should be no refresh-token request
+- login names are not case sensitive
